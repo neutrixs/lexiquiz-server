@@ -5,10 +5,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 
-	"github.com/neutrixs/lexiquiz-server/pkg/env"
+	"github.com/neutrixs/lexiquiz-server/pkg/words"
 	"golang.org/x/exp/slices"
 )
 
@@ -38,8 +37,7 @@ func CheckWord(w http.ResponseWriter, r *http.Request) {
 	}
 
 	word := body.Word
-	path, _ := env.Get("WORDS_PATH")
-	data, err := os.ReadFile(path)
+	data, err := words.WordsData.ReadFile("words.txt")
 	if err != nil {
 		status := http.StatusInternalServerError
 		w.WriteHeader(status)
@@ -65,8 +63,4 @@ func CheckWord(w http.ResponseWriter, r *http.Request) {
 
 func init() {
 	log.SetFlags(log.LstdFlags | log.Llongfile)
-	_, err := env.Get("WORDS_PATH")
-	if err != nil {
-		log.Fatal(err)
-	}
 }

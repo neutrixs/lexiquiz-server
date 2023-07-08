@@ -4,16 +4,14 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"strings"
 
-	"github.com/neutrixs/lexiquiz-server/pkg/env"
+	"github.com/neutrixs/lexiquiz-server/pkg/words"
 	"golang.org/x/exp/slices"
 )
 
 func GetWord(w http.ResponseWriter, r *http.Request) {
-	path, _ := env.Get("COMMON_WORDS_PATH")
-	data, err := os.ReadFile(path)
+	data, err := words.WordsData.ReadFile("common.txt")
 	if err != nil {
 		status := http.StatusInternalServerError
 		w.WriteHeader(status)
@@ -40,8 +38,4 @@ func GetWord(w http.ResponseWriter, r *http.Request) {
 
 func init() {
 	log.SetFlags(log.LstdFlags | log.Llongfile)
-	_, err := env.Get("COMMON_WORDS_PATH")
-	if err != nil {
-		log.Fatal(err)
-	}
 }
