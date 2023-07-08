@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -20,7 +20,7 @@ type checkWordRequest struct {
 }
 
 func CheckWord(w http.ResponseWriter, r *http.Request) {
-	requestBody, err := ioutil.ReadAll(r.Body)
+	requestBody, err := io.ReadAll(r.Body)
 	if err != nil {
 		status := http.StatusBadRequest
 		w.WriteHeader(status)
