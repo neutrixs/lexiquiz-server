@@ -42,6 +42,7 @@ func init() {
 		log.Println(err)
 		db, _ = sql.Open("mysql", connectionFormat)
 	}
+	dbCheck()
 	go func() {
 		for {
 			time.Sleep(10 * time.Second)

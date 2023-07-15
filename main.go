@@ -7,6 +7,7 @@ import (
 	"path"
 
 	"github.com/neutrixs/lexiquiz-server/pkg/api"
+	_ "github.com/neutrixs/lexiquiz-server/pkg/db"
 	"github.com/neutrixs/lexiquiz-server/pkg/env"
 )
 
