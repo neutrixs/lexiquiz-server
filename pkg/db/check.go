@@ -18,6 +18,7 @@ type field struct {
 
 type dbStructureType struct {
 	User_auth []field
+	Discord_login []field
 }
 
 var dbStructure = dbStructureType{
@@ -26,6 +27,10 @@ var dbStructure = dbStructureType{
 		{"discord_refresh_token", "mediumtext"},
 		{"email", "mediumtext"},
 		{"timestamp", "bigint"},
+	},
+	Discord_login: []field{
+		{"state", "tinytext"},
+		{"scopes", "mediumtext"},
 	},
 }
 
@@ -63,10 +68,9 @@ func dbCheck() {
 		}
 
 		var remoteValue []field
-		var null sql.NullString
 		for rows.Next() {
 			var data field
-			err := rows.Scan(&data.Name, &data.Type, &null, &null, &null, &null)
+			err := rows.Scan(&data.Name, &data.Type, &sql.NullString{}, &sql.NullString{}, &sql.NullString{}, &sql.NullString{})
 			if err != nil {
 				log.Println(err)
 			}
