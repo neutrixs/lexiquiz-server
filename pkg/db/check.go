@@ -32,6 +32,7 @@ var dbStructure = dbStructureType{
 	Discord_login: []field{
 		{"state", "tinytext"},
 		{"scopes", "mediumtext"},
+		{"timestamp", "bigint"},
 	},
 }
 

@@ -31,6 +31,7 @@ func generateState(length int) string {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	state := generateState(32)
+	timestamp := time.Now().Unix()
 	//TODO: implement checks if there was a duplicate state (literally impossible but, just in case)
 	query := url.Values{}
 	query.Set("response_type", "code")
@@ -42,7 +43,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	qs := query.Encode()
 
 	db := database.GetDB()
-	_, err := db.Query("INSERT INTO discord_login (state, scopes) VALUES (?, ?)", state, scopes)
+	_, err := db.Query("INSERT INTO discord_login (state, scopes, timestamp) VALUES (?, ?, ?)", state, scopes, timestamp)
 	if err != nil {
 		log.Println(err)
 		statusCode := http.StatusInternalServerError
