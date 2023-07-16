@@ -45,10 +45,11 @@ func createTable(name string, fields []field) {
 		keyValPair = append(keyValPair, combined)
 	}
 
-	_, err := db.Query(fmt.Sprintf("CREATE TABLE %s (%s)", name, strings.Join(keyValPair, ",")))
+	rows, err := db.Query(fmt.Sprintf("CREATE TABLE %s (%s)", name, strings.Join(keyValPair, ",")))
 	if err != nil {
 		log.Println(err)
 	}
+	rows.Close()
 }
 
 func dbCheck() {
@@ -64,9 +65,11 @@ func dbCheck() {
 		}
 
 		db := GetDB()
-		var successfullyDescribe bool
-		var rows *sql.Rows
-		var err error
+		var (
+			successfullyDescribe bool
+			rows *sql.Rows
+			err error
+		)
 
 		for !successfullyDescribe {
 			rows, err = db.Query(fmt.Sprintf("DESCRIBE %s", name))
@@ -92,6 +95,8 @@ func dbCheck() {
 
 			remoteValue = append(remoteValue, data)
 		}
+
+		rows.Close()
 
 		for _, currentValue := range value {
 			remoteIndex := slices.IndexFunc(remoteValue, func(search field) bool {return search.Name == currentValue.Name})
