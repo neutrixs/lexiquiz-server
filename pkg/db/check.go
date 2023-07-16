@@ -63,9 +63,22 @@ func dbCheck() {
 		}
 
 		db := GetDB()
-		rows, err := db.Query(fmt.Sprintf("DESCRIBE %s", name))
-		if err, ok := err.(*mysql.MySQLError); ok && err.Number == 1146 {
-			createTable(name, value)
+		var successfullyDescribe bool
+		var rows *sql.Rows
+		var err error
+
+		for !successfullyDescribe {
+			rows, err = db.Query(fmt.Sprintf("DESCRIBE %s", name))
+			if err != nil {
+				if err, ok := err.(*mysql.MySQLError); ok && err.Number == 1146 {
+					createTable(name, value)
+				} else {
+					panic(err)
+				}
+				continue
+			}
+
+			successfullyDescribe = true
 		}
 
 		var remoteValue []field
