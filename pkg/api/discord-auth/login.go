@@ -9,12 +9,7 @@ import (
 	"time"
 
 	database "github.com/neutrixs/lexiquiz-server/pkg/db"
-	"github.com/neutrixs/lexiquiz-server/pkg/env"
 )
-
-var scopes string
-var redirectURI string
-var clientID string
 
 func generateState(length int) string {
 	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.-"
@@ -57,7 +52,4 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func init() {
 	log.SetFlags(log.LstdFlags | log.Llongfile)
-	scopes, _ = env.Get("DISCORD_SCOPES")
-	redirectURI, _ = env.Get("DISCORD_REDIRECT_URI")
-	clientID, _ = env.Get("DISCORD_CLIENT_ID")
 }
