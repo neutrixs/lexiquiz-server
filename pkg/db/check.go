@@ -24,7 +24,8 @@ type dbStructureType struct {
 var dbStructure = dbStructureType{
 	User_auth: []field{
 		{"state", "tinytext"},
-		{"discord_refresh_token", "mediumtext"},
+		{"login_provider", "tinytext"},
+		{"refresh_token", "mediumtext"},
 		{"email", "mediumtext"},
 		{"timestamp", "bigint"},
 	},
