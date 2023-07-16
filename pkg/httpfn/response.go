@@ -12,3 +12,11 @@ func InternalServerError() http.Handler {
 		w.Write([]byte(fmt.Sprint(statusCode) + " " + http.StatusText(statusCode)))
 	})
 }
+
+func BadRequest() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		statusCode := http.StatusBadRequest
+		w.WriteHeader(statusCode)
+		w.Write([]byte(fmt.Sprint(statusCode) + " " + http.StatusText(statusCode)))
+	})
+}
